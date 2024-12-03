@@ -19,7 +19,7 @@ namespace amuse
 {
     struct TestResult
     {
-        bool success;
+        int error;
     };
 }
 
@@ -51,7 +51,7 @@ namespace amuse
     if (!(expr))                                                                                          \
     {                                                                                                     \
         std::cerr << "Assertion failed: " << #expr << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
-        _result.success = TEST_ERRORS;                                                                    \
+        _result.error = TEST_ERRORS;                                                                      \
         return;                                                                                           \
     }
 

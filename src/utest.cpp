@@ -11,17 +11,16 @@ int amuse::utest::run_tests()
 {
     auto &tests = get_tests();
 
-    bool failed = false;
     for (const test &t : tests)
     {
         std::cout << "Running test: " << t.name << " (" << t.desc << ")" << std::endl;
         TestResult ret;
         t.func(ret);
 
-        if (ret.success != SUCCESS)
+        if (ret.error != SUCCESS)
         {
             std::cerr << "Test failed: " << t.name << " (" << t.desc << ")" << std::endl;
-            failed = true;
+            return ret.error;
         }
     }
 
@@ -35,7 +34,7 @@ std::vector<amuse::utest::test> &amuse::utest::get_tests()
 }
 
 #ifndef AMUSE_UTEST_NO_MAIN
-int main(int argc, char **argv)
+int main()
 {
     return amuse::utest::run_tests();
 }
