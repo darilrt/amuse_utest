@@ -15,9 +15,10 @@ int amuse::utest::run_tests()
     for (const test &t : tests)
     {
         std::cout << "Running test: " << t.name << " (" << t.desc << ")" << std::endl;
-        int ret = t.func();
+        TestResult ret;
+        t.func(ret);
 
-        if (ret != SUCCESS)
+        if (ret.success != SUCCESS)
         {
             std::cerr << "Test failed: " << t.name << " (" << t.desc << ")" << std::endl;
             failed = true;

@@ -15,7 +15,15 @@ enum : int
     SUBMIT_ERRORS = 0x40
 };
 
-typedef int (*TestFunction)();
+namespace amuse
+{
+    struct TestResult
+    {
+        bool success;
+    };
+}
+
+typedef void (*TestFunction)(amuse::TestResult &);
 
 namespace amuse
 {
@@ -43,11 +51,12 @@ namespace amuse
     if (!(expr))                                                                                          \
     {                                                                                                     \
         std::cerr << "Assertion failed: " << #expr << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
-        return TEST_ERRORS;                                                                               \
+        _result.success = TEST_ERRORS;                                                                    \
+        return;                                                                                           \
     }
 
 #define TEST(t, desc)                                 \
-    int t();                                          \
+    void t(amuse::TestResult &);                      \
     struct t##_registrar                              \
     {                                                 \
         t##_registrar()                               \
@@ -55,4 +64,4 @@ namespace amuse
             amuse::utest::register_test(#t, t, desc); \
         }                                             \
     } t##_registrar_instance;                         \
-    int t()
+    void t(amuse::TestResult &_result)
