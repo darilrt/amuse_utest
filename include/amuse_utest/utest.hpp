@@ -64,4 +64,4 @@ namespace amuse
             amuse::utest::register_test(#t, t, desc); \
         }                                             \
     } t##_registrar_instance;                         \
-    void t(amuse::TestResult &_result)
+    void t([[maybe_unused]] amuse::TestResult &_result)
